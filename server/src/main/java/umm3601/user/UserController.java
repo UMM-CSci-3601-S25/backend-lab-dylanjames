@@ -360,11 +360,11 @@ public class UserController implements Controller {
    * Setup routes for the `user` collection endpoints.
    *
    * These endpoints are:
-   *   - `GET /api/users/:id`
-   *       - Get the specified user
-   *   - `GET /api/users?age=NUMBER&company=STRING&name=STRING`
-   *      - List users, filtered using query parameters
-   *      - `age`, `company`, and `name` are optional query parameters
+   *   - `GET /api/todos/:id`
+   *       - Get the specified todo
+   *   - `GET /api/todos?owner=STRING&status=BOOLEAN&body=STRING&category=STRING`
+   *      - List todos, filtered using query parameters
+   *      - `owner`, `status`, `body` and `category` are optional query parameters
    *   - `GET /api/usersByCompany`
    *     - Get user names and IDs, possibly filtered, grouped by company
    *   - `DELETE /api/users/:id`
