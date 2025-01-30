@@ -115,18 +115,19 @@ public class TodoController implements Controller {
 
   public void getTodosByStatus(Context ctx) {
     String statusParam = ctx.queryParam("status");
-    boolean status = "complete".equalsIgnoreCase(statusParam);
+    System.out.println("Query parameter 'status': " + statusParam); // Debug log
 
+    boolean status = "complete".equalsIgnoreCase(statusParam);
+    System.out.println("Boolean status: " + status); // Debug log
 
     Bson statusFilter = eq(STATUS_KEY, status);
     ArrayList<Todo> matchingTodos = todoCollection
       .find(statusFilter)
       .into(new ArrayList<>());
 
-
     ctx.json(matchingTodos);
     ctx.status(HttpStatus.OK);
-  }
+}
 
 
   /**
@@ -152,8 +153,12 @@ public class TodoController implements Controller {
       filters.add(regex(CATEGORY_KEY, ctx.queryParam(CATEGORY_KEY)));
     }
     if (ctx.queryParamMap().containsKey(STATUS_KEY)) {
-      boolean status = Boolean.parseBoolean(ctx.queryParam(STATUS_KEY));
-      filters.add(eq(STATUS_KEY, status));
+      String statusParam = ctx.queryParam(STATUS_KEY);
+      if ("complete".equalsIgnoreCase(statusParam)) {
+          filters.add(eq(STATUS_KEY, true));
+      } else if ("incomplete".equalsIgnoreCase(statusParam)) {
+          filters.add(eq(STATUS_KEY, false));
+      }
     }
     if (ctx.queryParamMap().containsKey(BODY_KEY)) {
         Pattern pattern = Pattern.compile(Pattern.quote(ctx.queryParam(BODY_KEY)), Pattern.CASE_INSENSITIVE);
