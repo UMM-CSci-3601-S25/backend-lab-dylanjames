@@ -44,6 +44,7 @@ public class TodoController implements Controller {
   static final String BODY_KEY = "body";
 
 
+
   private final JacksonMongoCollection<Todo> todoCollection;
 
   /**
@@ -92,8 +93,9 @@ public class TodoController implements Controller {
   public void getTodos(Context ctx) {
     Bson combinedFilter = constructFilter(ctx);
     Bson sortingOrder = constructSortingOrder(ctx);
-
-    int limit = Integer.parseInt(ctx.queryParam("limit"));
+    int limit = 0;
+    if (ctx.queryParamMap().containsKey("limit"))
+      limit = Integer.parseInt(ctx.queryParam("limit"));
 
 
     ArrayList<Todo> matchingTodos = todoCollection
@@ -157,6 +159,7 @@ public class TodoController implements Controller {
         Pattern pattern = Pattern.compile(Pattern.quote(ctx.queryParam(BODY_KEY)), Pattern.CASE_INSENSITIVE);
       filters.add(regex(BODY_KEY, pattern));
     }
+
 
     // Combine the list of filters into a single filtering document.
     Bson combinedFilter = filters.isEmpty() ? new Document() : and(filters);
