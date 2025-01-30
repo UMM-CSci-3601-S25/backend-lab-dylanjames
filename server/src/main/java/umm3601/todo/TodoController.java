@@ -110,6 +110,21 @@ public class TodoController implements Controller {
     ctx.status(HttpStatus.OK);
   }
 
+  public void getTodosByStatus(Context ctx) {
+    String statusParam = ctx.queryParam("status");
+    boolean status = "complete".equalsIgnoreCase(statusParam);
+
+
+    Bson statusFilter = eq(STATUS_KEY, status);
+    ArrayList<Todo> matchingTodos = todoCollection
+      .find(statusFilter)
+      .into(new ArrayList<>());
+
+
+    ctx.json(matchingTodos);
+    ctx.status(HttpStatus.OK);
+  }
+
 
   /**
    * Construct a Bson filter document to use in the `find` method based on the
@@ -313,5 +328,9 @@ public class TodoController implements Controller {
 
     // Get the specified todo
     server.get("/api/todos/{id}", this::getTodoByID);
+
+    // Get todos by status
+    server.get("/api/todos", this::getTodosByStatus);
+
   }
 }
