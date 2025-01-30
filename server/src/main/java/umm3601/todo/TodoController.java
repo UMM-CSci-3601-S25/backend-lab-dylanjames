@@ -93,12 +93,13 @@ public class TodoController implements Controller {
     Bson combinedFilter = constructFilter(ctx);
     Bson sortingOrder = constructSortingOrder(ctx);
 
-    //int limit = ctx.queryParam("limit") != null ? Integer.parseInt(ctx.queryParam("limit")) : 10;
+    int limit = Integer.parseInt(ctx.queryParam("limit"));
+
 
     ArrayList<Todo> matchingTodos = todoCollection
       .find(combinedFilter)
       .sort(sortingOrder)
-      //.limit(limit)
+      .limit(limit)
       .into(new ArrayList<>());
 
     // Set the JSON body of the response to be the list of users returned by the database.
