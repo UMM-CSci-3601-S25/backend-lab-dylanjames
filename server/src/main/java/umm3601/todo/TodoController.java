@@ -93,12 +93,12 @@ public class TodoController implements Controller {
     Bson combinedFilter = constructFilter(ctx);
     Bson sortingOrder = constructSortingOrder(ctx);
 
-    int limit = ctx.queryParam("limit") != null ? Integer.parseInt(ctx.queryParam("limit")) : 10;
+    //int limit = ctx.queryParam("limit") != null ? Integer.parseInt(ctx.queryParam("limit")) : 10;
 
     ArrayList<Todo> matchingTodos = todoCollection
       .find(combinedFilter)
       .sort(sortingOrder)
-      .limit(limit)
+      //.limit(limit)
       .into(new ArrayList<>());
 
     // Set the JSON body of the response to be the list of users returned by the database.
@@ -109,6 +109,7 @@ public class TodoController implements Controller {
     // Explicitly set the context status to OK
     ctx.status(HttpStatus.OK);
   }
+
 
   /**
    * Construct a Bson filter document to use in the `find` method based on the
@@ -158,7 +159,7 @@ public class TodoController implements Controller {
    * query parameter is not present, it defaults to "asc".
    *
    * @param ctx a Javalin HTTP context, which    };
-ontains the query parameters
+    ontains the query parameters
    *   used to construct the sorting order
    * @return a Bson sorting document that can be used in the `sort` method
    *  to sort the database collection of users
@@ -303,12 +304,14 @@ ontains the query parameters
     // List todos, filtered using query parameters
     server.get(API_TODOS, this::getTodos);
 
-
     // Add new user with the user info being in the JSON body
     // of the HTTP request
     server.post(API_TODOS, this::addNewTodo);
 
     // Delete the specified user
     server.delete(API_TODO_BY_ID, this::deleteTodoByID);
+
+    // Get the specified todo
+    server.get("/api/todos/{id}", this::getTodoByID);
   }
 }
