@@ -42,6 +42,7 @@ public class TodoController implements Controller {
   static final String CATEGORY_KEY = "category";
   static final String STATUS_KEY = "status";
   static final String BODY_KEY = "body";
+  public static final String SORT_ORDER_KEY = "sortorder";
 
 
 
