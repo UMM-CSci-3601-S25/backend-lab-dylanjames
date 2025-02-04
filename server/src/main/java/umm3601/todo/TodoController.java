@@ -288,16 +288,6 @@ public class TodoController implements Controller {
    *
    * @param str the string to generate a md5 for
    */
-  public String md5(String str) throws NoSuchAlgorithmException {
-    MessageDigest md = MessageDigest.getInstance("MD5");
-    byte[] hashInBytes = md.digest(str.toLowerCase().getBytes(StandardCharsets.UTF_8));
-
-    StringBuilder result = new StringBuilder();
-    for (byte b : hashInBytes) {
-      result.append(String.format("%02x", b));
-    }
-    return result.toString();
-  }
 
   /**
    * Setup routes for the `user` collection endpoints.
