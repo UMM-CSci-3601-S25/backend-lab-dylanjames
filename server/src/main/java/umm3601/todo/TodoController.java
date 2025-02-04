@@ -164,6 +164,10 @@ public class TodoController implements Controller {
         Pattern pattern = Pattern.compile(Pattern.quote(ctx.queryParam(BODY_KEY)), Pattern.CASE_INSENSITIVE);
       filters.add(regex(BODY_KEY, pattern));
     }
+    if (ctx.queryParamMap().containsKey("contains")) {
+      filters.add(regex(BODY_KEY, ctx.queryParam("contains")));
+    }
+
 
 
     // Combine the list of filters into a single filtering document.
